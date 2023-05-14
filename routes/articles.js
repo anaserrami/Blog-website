@@ -1,40 +1,84 @@
 const express = require('express');
 const router = express.Router();
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
 
 // GET /articles?take=10&skip=0
-router.get('/', (req, res) => {
-  const take = req.query.take || 10;
-  const skip = req.query.skip || 0;
-  // retrieve articles from the database using take and skip
-  res.send('GET /articles');
+router.get('/', async (req, res) => {
+  const take = Number(req.query.take) || 10;
+  const skip = Number(req.query.skip) || 0;
+  try {
+    const articles = await prisma.article.findMany({
+      take,
+      skip,
+    });
+    res.send(articles);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error retrieving articles from the database');
+  }
 });
 
 // GET /articles/123
-router.get('/:id', (req, res) => {
-  const id = req.params.id;
-  // retrieve the article with the given id from the database
-  res.send(`GET /articles/${id}`);
+router.get('/:id', async (req, res) => {
+  const id = Number(req.params.id);
+  try {
+    const article = await prisma.article.findUnique({
+      where: { id },
+    });
+    if (article) {
+      res.send(article);
+    } else {
+      res.status(404).send('Article not found');
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error retrieving article from the database');
+  }
 });
 
 // POST /articles
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
   const article = req.body;
-  // insert the new article into the database
-  res.send('POST /articles');
+  try {
+    const newArticle = await prisma.article.create({
+      data: article,
+    });
+    res.send(newArticle);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error creating new article');
+  }
 });
 
-// PATCH /articles
-router.patch('/', (req, res) => {
+// PATCH /articles/123
+router.patch('/:id', async (req, res) => {
+  const id = Number(req.params.id);
   const article = req.body;
-  // update the article in the database
-  res.send(`PATCH /articles`);
+  try {
+    const updatedArticle = await prisma.article.update({
+      where: { id },
+      data: article,
+    });
+    res.send(updatedArticle);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error updating article');
+  }
 });
 
 // DELETE /articles/123
-router.delete('/:id', (req, res) => {
-  const id = req.params.id;
-  // delete the article with the given id from the database
-  res.send(`DELETE /articles/${id}`);
+router.delete('/:id', async (req, res) => {
+  const id = Number(req.params.id);
+  try {
+    await prisma.article.delete({
+      where: { id },
+    });
+    res.send(`Article with id ${id} deleted`);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error deleting article');
+  }
 });
 
 module.exports = router;
