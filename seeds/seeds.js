@@ -4,7 +4,6 @@ const { faker } = require("@faker-js/faker");
 const prisma = new PrismaClient();
 
 async function main() {
-  //emails
   await prisma.comment.deleteMany();
   await prisma.article.deleteMany();
   await prisma.category.deleteMany();
@@ -82,11 +81,14 @@ async function main() {
       });
     }
 
-    console.log(`Created ${numComments} comments for article with id: ${article.id}`
+    console.log(
+      `Created ${numComments} comments for article with id: ${article.id}`
     );
   }
 }
 
 main()
   .catch((e) => console.error(e))
-  .finally(async () => { await prisma.$disconnect(); });
+  .finally(async () => {
+    await prisma.$disconnect();
+  });

@@ -25,6 +25,9 @@ router.get("/:id", async (req, res) => {
   try {
     const commentaire = await prisma.comment.findUnique({
       where: { id },
+      include: {
+        article: true,
+      },
     });
     if (commentaire) {
       res.send(commentaire);
