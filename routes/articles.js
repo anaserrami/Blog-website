@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+const { verifyToken } = require("../middleware/middleware");
 
 // GET /articles?take=10&skip=0
 router.get("/", async (req, res) => {
@@ -11,6 +12,15 @@ router.get("/", async (req, res) => {
     const articles = await prisma.article.findMany({
       take,
       skip,
+      include: {
+        author: {
+          select: {
+            name: true,
+            email: true,
+            role: true,
+          },
+        },
+      },
     });
     res.send(articles);
   } catch (error) {
@@ -26,7 +36,13 @@ router.get("/:id", async (req, res) => {
     const article = await prisma.article.findUnique({
       where: { id },
       include: {
-        author: true,
+        author: {
+          select: {
+            name: true,
+            email: true,
+            role: true,
+          },
+        },
       },
     });
     if (article) {
@@ -41,11 +57,20 @@ router.get("/:id", async (req, res) => {
 });
 
 // POST /articles
-router.post("/", async (req, res) => {
-  const article = req.body;
+router.post("/", verifyToken, async (req, res) => {
+  const { title, content, image, categories } = req.body;
+  const { user } = req; // Access the authenticated user
+
   try {
     const newArticle = await prisma.article.create({
-      data: article,
+      data: {
+        title,
+        content,
+        image,
+        author: { connect: { id: user.user_id } },
+        categories: { connect: categories },
+        published: true,
+      },
     });
     res.send(newArticle);
   } catch (error) {
@@ -55,13 +80,22 @@ router.post("/", async (req, res) => {
 });
 
 // PATCH /articles/123
-router.patch("/:id", async (req, res) => {
+router.patch("/:id", verifyToken, async (req, res) => {
   const id = Number(req.params.id);
-  const article = req.body;
+  const { title, content, image, categories } = req.body;
+  const { user } = req; // Access the authenticated user
+
   try {
     const updatedArticle = await prisma.article.update({
       where: { id },
-      data: article,
+      data: {
+        title,
+        content,
+        image,
+        author: { connect: { id: user.user_id } },
+        categories: { set: categories },
+        published: true,
+      },
     });
     res.send(updatedArticle);
   } catch (error) {
@@ -71,9 +105,15 @@ router.patch("/:id", async (req, res) => {
 });
 
 // DELETE /articles/123
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", verifyToken, async (req, res) => {
   const id = Number(req.params.id);
   try {
+    // Delete associated comments first
+    await prisma.comment.deleteMany({
+      where: { articleId: id },
+    });
+
+    // Delete the article
     await prisma.article.delete({
       where: { id },
     });

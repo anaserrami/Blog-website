@@ -1,0 +1,32 @@
+### Récupérer tous les commentaires ###
+GET http://localhost:3000/commentaires
+
+### Récupérer les commentaires à partir de la position 5, en prenant les 10 premiers éléments ###
+GET http://localhost:3000/commentaires?skip=5&take=10
+
+### Récupérer le commentaire ayant l'id 1 ###
+GET http://localhost:3000/commentaires/1
+
+### Ajouter un nouvel commentaire ###
+POST http://localhost:3000/commentaires
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozNCwiZW1haWwiOiJhbmFzQGV4YW1wbGUuY29tIiwiaWF0IjoxNjg0MzYxMjEwLCJleHAiOjE2ODQ1MzQwMTB9.UvpbEW4v7J4j5b3xK1Ithacme6twebKOZ2D_wGz_MG0
+
+{
+    "email": "anas@enset.com",
+    "content": "Contenu de le commentaire",
+    "articleId": 1
+}
+
+### Mettre à jour le commentaire ayant l'id 1 ###
+PATCH http://localhost:3000/commentaires/1
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozNCwiZW1haWwiOiJhbmFzQGV4YW1wbGUuY29tIiwiaWF0IjoxNjg0MzYxMjEwLCJleHAiOjE2ODQ1MzQwMTB9.UvpbEW4v7J4j5b3xK1Ithacme6twebKOZ2D_wGz_MG0
+
+{
+    "content": "Contenu mise à jour de le commentaire"
+}
+
+### Supprimer le commentaire ayant l'id 1 ###
+DELETE http://localhost:3000/commentaires/1
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozNCwiZW1haWwiOiJhbmFzQGV4YW1wbGUuY29tIiwiaWF0IjoxNjg0MzYxMjEwLCJleHAiOjE2ODQ1MzQwMTB9.UvpbEW4v7J4j5b3xK1Ithacme6twebKOZ2D_wGz_MG0

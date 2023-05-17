@@ -1,0 +1,36 @@
+### Récupérer tous les articles ###
+GET http://localhost:3000/articles
+
+### Récupérer les articles à partir de la position 5, en prenant les 10 premiers éléments ###
+GET http://localhost:3000/articles?skip=5&take=10
+
+### Récupérer l'article ayant l'id 1 ###
+GET http://localhost:3000/articles/1
+
+### Ajouter un nouvel article ###
+POST http://localhost:3000/articles
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozNCwiZW1haWwiOiJhbmFzQGV4YW1wbGUuY29tIiwiaWF0IjoxNjg0MzYxMjEwLCJleHAiOjE2ODQ1MzQwMTB9.UvpbEW4v7J4j5b3xK1Ithacme6twebKOZ2D_wGz_MG0
+
+{
+    "title": "Nouvel article",
+    "content": "Contenu de l'article",
+    "image": "image-UHVDFJVND",
+    "categories": [{"id": 1}]
+}
+
+### Mettre à jour l'article ayant l'id 1 ###
+PATCH http://localhost:3000/articles/1
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozNCwiZW1haWwiOiJhbmFzQGV4YW1wbGUuY29tIiwiaWF0IjoxNjg0MzYxMjEwLCJleHAiOjE2ODQ1MzQwMTB9.UvpbEW4v7J4j5b3xK1Ithacme6twebKOZ2D_wGz_MG0
+
+{
+    "title": "Article mis à jour",
+    "content": "Nouveau contenu",
+    "image": "new-image-UHVDFJVND",
+    "categories": [{"id": 2}]
+}
+
+### Supprimer l'article ayant l'id 1 ###
+DELETE http://localhost:3000/articles/1
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozNCwiZW1haWwiOiJhbmFzQGV4YW1wbGUuY29tIiwiaWF0IjoxNjg0MzYxMjEwLCJleHAiOjE2ODQ1MzQwMTB9.UvpbEW4v7J4j5b3xK1Ithacme6twebKOZ2D_wGz_MG0

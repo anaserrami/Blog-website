@@ -1,0 +1,31 @@
+### Récupérer tous les users ###
+GET http://localhost:3000/users
+
+### Récupérer les users à partir de la position 5, en prenant les 10 premiers éléments ###
+GET http://localhost:3000/users?skip=5&take=10
+
+### Récupérer l'user ayant l'id 1 ###
+GET http://localhost:3000/users/1
+
+### Ajouter un nouvel user ###
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+    "email": "hassan@example.com",
+    "password": "password456",
+    "name":"hassan"
+}
+
+### Mettre à jour l'user ayant l'id 1 ###
+PATCH http://localhost:3000/users/1
+Content-Type: application/json
+
+{
+    "email": "ahmed@example.com",
+    "password": "password789",
+    "name":"ahmed"
+}
+
+### Supprimer l'user ayant l'id 1 ###
+DELETE http://localhost:3000/users/1

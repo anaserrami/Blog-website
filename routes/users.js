@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
+const { verifyToken } = require("../middleware/middleware");
 
 // GET /users?take=10&skip=0
 router.get('/', async (req, res) => {
@@ -11,6 +12,12 @@ router.get('/', async (req, res) => {
     const users = await prisma.user.findMany({
       take,
       skip,
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+      }
     });
     res.send(users);
   } catch (error) {
@@ -25,6 +32,12 @@ router.get('/:id', async (req, res) => {
   try {
     const user = await prisma.user.findUnique({
       where: { id },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+      }
     });
     if (user) {
       res.send(user);
@@ -38,11 +51,16 @@ router.get('/:id', async (req, res) => {
 });
 
 // POST /users
-router.post('/', async (req, res) => {
-  const user = req.body;
+router.post('/', verifyToken, async (req, res) => {
+  const { name, email, password } = req.body;
   try {
     const newUser = await prisma.user.create({
-      data: user,
+      data: {
+        name,
+        email,
+        password,
+        role: "AUTHOR"
+      },
     });
     res.send(newUser);
   } catch (error) {
@@ -52,13 +70,18 @@ router.post('/', async (req, res) => {
 });
 
 // PATCH /users/123
-router.patch('/:id', async (req, res) => {
+router.patch('/:id', verifyToken, async (req, res) => {
   const id = Number(req.params.id);
-  const user = req.body;
+  const { name, email, password } = req.body;
   try {
     const updatedUser = await prisma.user.update({
       where: { id },
-      data: user,
+      data: {
+        name,
+        email,
+        password,
+        role: "AUTHOR"
+      },
     });
     res.send(updatedUser);
   } catch (error) {
@@ -71,6 +94,24 @@ router.patch('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   const id = Number(req.params.id);
   try {
+    // Find articles associated with the user
+    const articles = await prisma.article.findMany({
+      where: { authorId: id },
+      select: {
+        id: true,
+      },
+    });
+
+    // Delete associated articles and comments
+    const articleIds = articles.map((article) => article.id);
+    await prisma.comment.deleteMany({
+      where: { articleId: { in: articleIds } },
+    });
+    await prisma.article.deleteMany({
+      where: { authorId: id },
+    });
+
+    // Delete the user
     await prisma.user.delete({
       where: { id },
     });

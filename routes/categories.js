@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
+const { verifyToken } = require("../middleware/middleware");
 
 // GET /categories?take=10&skip=0
 router.get('/', async (req, res) => {
@@ -38,11 +39,13 @@ router.get('/:id', async (req, res) => {
 });
 
 // POST /categories
-router.post('/', async (req, res) => {
-  const categorie = req.body;
+router.post('/', verifyToken, async (req, res) => {
+  const {name} = req.body;
   try {
     const newCategorie = await prisma.category.create({
-      data: categorie,
+      data:{
+        name,
+      },
     });
     res.send(newCategorie);
   } catch (error) {
@@ -52,13 +55,15 @@ router.post('/', async (req, res) => {
 });
 
 // PATCH /categories/123
-router.patch('/:id', async (req, res) => {
+router.patch('/:id', verifyToken, async (req, res) => {
   const id = Number(req.params.id);
-  const categorie = req.body;
+  const {name} = req.body;
   try {
     const updatedCategorie = await prisma.category.update({
       where: { id },
-      data: categorie,
+      data:{
+        name,
+      },
     });
     res.send(updatedCategorie);
   } catch (error) {
@@ -68,9 +73,27 @@ router.patch('/:id', async (req, res) => {
 });
 
 // DELETE /categories/123
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', verifyToken, async (req, res) => {
   const id = Number(req.params.id);
   try {
+    // Find articles associated with the category
+    const articles = await prisma.article.findMany({
+      where: { categories: { some: { id } } },
+      select: {
+        id: true,
+      },
+    });
+
+    // Delete associated articles and comments
+    const articleIds = articles.map((article) => article.id);
+    await prisma.comment.deleteMany({
+      where: { articleId: { in: articleIds } },
+    });
+    await prisma.article.deleteMany({
+      where: { categories: { some: { id } } },
+    });
+
+    // Delete the category
     await prisma.category.delete({
       where: { id },
     });
