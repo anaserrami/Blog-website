@@ -1,16 +1,16 @@
 ### Récupérer tous les articles ###
-GET http://localhost:3000/articles
+GET http://localhost:3001/articles
 
 ### Récupérer les articles à partir de la position 5, en prenant les 10 premiers éléments ###
-GET http://localhost:3000/articles?skip=5&take=10
+GET http://localhost:3001/articles?skip=5&take=10
 
 ### Récupérer l'article ayant l'id 1 ###
-GET http://localhost:3000/articles/1
+GET http://localhost:3001/articles/1
 
 ### Ajouter un nouvel article ###
-POST http://localhost:3000/articles
+POST http://localhost:3001/articles
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozNCwiZW1haWwiOiJhbmFzQGV4YW1wbGUuY29tIiwiaWF0IjoxNjg0MzYxMjEwLCJleHAiOjE2ODQ1MzQwMTB9.UvpbEW4v7J4j5b3xK1Ithacme6twebKOZ2D_wGz_MG0
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozNywiZW1haWwiOiJhbmFzQGV4YW1wbGUuY29tIiwiaWF0IjoxNjg0NTI1MjU1LCJleHAiOjE2ODQ2OTgwNTV9.jXYvNXc6cTgKR7kGtVHAsBLGNEbNLnJa2BiIFoqmX5U
 
 {
     "title": "Nouvel article",
@@ -20,9 +20,9 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozNCwiZW1haWwi
 }
 
 ### Mettre à jour l'article ayant l'id 1 ###
-PATCH http://localhost:3000/articles/1
+PATCH http://localhost:3001/articles/107
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozNCwiZW1haWwiOiJhbmFzQGV4YW1wbGUuY29tIiwiaWF0IjoxNjg0MzYxMjEwLCJleHAiOjE2ODQ1MzQwMTB9.UvpbEW4v7J4j5b3xK1Ithacme6twebKOZ2D_wGz_MG0
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozNywiZW1haWwiOiJhbmFzQGV4YW1wbGUuY29tIiwiaWF0IjoxNjg0NTI1MjU1LCJleHAiOjE2ODQ2OTgwNTV9.jXYvNXc6cTgKR7kGtVHAsBLGNEbNLnJa2BiIFoqmX5U
 
 {
     "title": "Article mis à jour",
@@ -32,5 +32,5 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozNCwiZW1haWwi
 }
 
 ### Supprimer l'article ayant l'id 1 ###
-DELETE http://localhost:3000/articles/1
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozNCwiZW1haWwiOiJhbmFzQGV4YW1wbGUuY29tIiwiaWF0IjoxNjg0MzYxMjEwLCJleHAiOjE2ODQ1MzQwMTB9.UvpbEW4v7J4j5b3xK1Ithacme6twebKOZ2D_wGz_MG0
+DELETE http://localhost:3001/articles/107
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozNywiZW1haWwiOiJhbmFzQGV4YW1wbGUuY29tIiwiaWF0IjoxNjg0NTI1MjU1LCJleHAiOjE2ODQ2OTgwNTV9.jXYvNXc6cTgKR7kGtVHAsBLGNEbNLnJa2BiIFoqmX5U

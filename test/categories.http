@@ -1,30 +1,30 @@
 ### Récupérer tous les categories ###
-GET http://localhost:3000/categories
+GET http://localhost:3001/categories
 
 ### Récupérer les categories à partir de la position 5, en prenant les 10 premiers éléments ###
-GET http://localhost:3000/categories?skip=5&take=10
+GET http://localhost:3001/categories?skip=5&take=10
 
 ### Récupérer la categorie ayant l'id 1 ###
-GET http://localhost:3000/categories/1
+GET http://localhost:3001/categories/1
 
 ### Ajouter une nouvelle categorie ###
-POST http://localhost:3000/categories
+POST http://localhost:3001/categories
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozNCwiZW1haWwiOiJhbmFzQGV4YW1wbGUuY29tIiwiaWF0IjoxNjg0MzYxMjEwLCJleHAiOjE2ODQ1MzQwMTB9.UvpbEW4v7J4j5b3xK1Ithacme6twebKOZ2D_wGz_MG0
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozNywiZW1haWwiOiJhbmFzQGV4YW1wbGUuY29tIiwiaWF0IjoxNjg0NTI1MjU1LCJleHAiOjE2ODQ2OTgwNTV9.jXYvNXc6cTgKR7kGtVHAsBLGNEbNLnJa2BiIFoqmX5U
 
 {
     "name": "Nouvel categorie"
 }
 
 ### Mettre à jour la categorie ayant l'id 1 ###
-PATCH http://localhost:3000/categories/1
+PATCH http://localhost:3001/categories/13
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozNCwiZW1haWwiOiJhbmFzQGV4YW1wbGUuY29tIiwiaWF0IjoxNjg0MzYxMjEwLCJleHAiOjE2ODQ1MzQwMTB9.UvpbEW4v7J4j5b3xK1Ithacme6twebKOZ2D_wGz_MG0
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozNywiZW1haWwiOiJhbmFzQGV4YW1wbGUuY29tIiwiaWF0IjoxNjg0NTI1MjU1LCJleHAiOjE2ODQ2OTgwNTV9.jXYvNXc6cTgKR7kGtVHAsBLGNEbNLnJa2BiIFoqmX5U
 
 {
     "name": "Categorie mis à jour"
 }
 
 ### Supprimer la categorie ayant l'id 1 ###
-DELETE http://localhost:3000/categories/1
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozNCwiZW1haWwiOiJhbmFzQGV4YW1wbGUuY29tIiwiaWF0IjoxNjg0MzYxMjEwLCJleHAiOjE2ODQ1MzQwMTB9.UvpbEW4v7J4j5b3xK1Ithacme6twebKOZ2D_wGz_MG0
+DELETE http://localhost:3001/categories/13
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozNywiZW1haWwiOiJhbmFzQGV4YW1wbGUuY29tIiwiaWF0IjoxNjg0NTI1MjU1LCJleHAiOjE2ODQ2OTgwNTV9.jXYvNXc6cTgKR7kGtVHAsBLGNEbNLnJa2BiIFoqmX5U

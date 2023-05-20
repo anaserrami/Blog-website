@@ -1,14 +1,14 @@
 ### Récupérer tous les users ###
-GET http://localhost:3000/users
+GET http://localhost:3001/users
 
 ### Récupérer les users à partir de la position 5, en prenant les 10 premiers éléments ###
-GET http://localhost:3000/users?skip=5&take=10
+GET http://localhost:3001/users?skip=5&take=10
 
 ### Récupérer l'user ayant l'id 1 ###
-GET http://localhost:3000/users/1
+GET http://localhost:3001/users/1
 
 ### Ajouter un nouvel user ###
-POST http://localhost:3000/users
+POST http://localhost:3001/users
 Content-Type: application/json
 
 {
@@ -18,7 +18,7 @@ Content-Type: application/json
 }
 
 ### Mettre à jour l'user ayant l'id 1 ###
-PATCH http://localhost:3000/users/1
+PATCH http://localhost:3001/users/1
 Content-Type: application/json
 
 {
@@ -28,4 +28,4 @@ Content-Type: application/json
 }
 
 ### Supprimer l'user ayant l'id 1 ###
-DELETE http://localhost:3000/users/1
+DELETE http://localhost:3001/users/1
