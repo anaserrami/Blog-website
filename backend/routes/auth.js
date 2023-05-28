@@ -84,4 +84,64 @@ router.post("/login", async (req, res) => {
   }
 });
 
+router.post("/profile", async (req, res) => {
+  try {
+    // Get the user ID from the authenticated user's token
+    const token = req.headers.authorization; // Assuming the token is included in the 'Authorization' header
+
+    if (!token) {
+      return res.status(401).json({ message: "Authorization token not found" });
+    }
+
+    const decodedToken = jwt.verify(token, process.env.TOKEN_KEY);
+    const userId = decodedToken.user_id;
+
+    // Retrieve the user's profile from the database
+    const userProfile = await prisma.user.findUnique({
+      where: { id: userId },
+      include: {
+        articles: true,
+      },
+    });
+
+    if (userProfile) {
+      // Return the user's profile
+      return res.status(200).json({ status: true, profile: userProfile });
+    } else {
+      // User not found
+      return res.status(404).json({ message: "User not found" });
+    }
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: "Server Error" });
+  }
+});
+
+router.post("/logout", async (req, res) => {
+  try {
+    const token = req.headers.authorization; // Assuming the token is included in the 'Authorization' header
+    
+    if (!token) {
+      return res.status(401).json({ message: "Authorization token not found" });
+    }
+    
+    const decodedToken = jwt.verify(token, process.env.TOKEN_KEY);
+    const userId = decodedToken.user_id;
+    
+    // Delete the user's token from the database
+    await prisma.user.update({
+      where: { id: userId },
+      data: {
+        token: null,
+      },
+    });
+    
+    return res.status(200).json({ status: true });
+    
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: "Server Error" });
+  }
+});
+
 module.exports = router;

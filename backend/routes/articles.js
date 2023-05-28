@@ -1,8 +1,27 @@
 const express = require("express");
+var path = require('path');
+
 const router = express.Router();
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const { verifyToken } = require("../middleware/middleware");
+
+const multer = require("multer");
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, path.join(__dirname, "..", "public", "images")); // Replace 'uploads' with the desired folder path
+  },
+  filename: function (req, file, cb) {
+    const uniqueFilename =
+      Math.floor(Date.now() / 1000) + "-" + file.originalname;
+    cb(null, uniqueFilename);
+    req.filePath = "http://localhost:3001/images/" + uniqueFilename;
+  },
+});
+const upload = multer({ storage });
+
+
 
 // GET /articles?take=10&skip=0
 router.get("/", async (req, res) => {
@@ -12,15 +31,45 @@ router.get("/", async (req, res) => {
     const articles = await prisma.article.findMany({
       take,
       skip,
-      include: {
+      select:{
+        id: true,
+        title: true,
+        content: true,
+        image: true,
+        createdAt: true,
+        updatedAt: true,
+        published: true,
         author: {
           select: {
+            id: true,
             name: true,
             email: true,
             role: true,
           },
         },
-      },
+        categories:{
+          select: {
+            id: true,
+            name: true,
+          }
+        },
+        comments:{
+          select: {
+            id: true,
+            email: true,
+            content: true,
+            article: {
+              select:{
+                author:{
+                  select:{
+                    name: true,
+                  }
+                }
+              }
+            }
+          }
+        },
+      }
     });
     res.send(articles);
   } catch (error) {
@@ -35,15 +84,45 @@ router.get("/:id", async (req, res) => {
   try {
     const article = await prisma.article.findUnique({
       where: { id },
-      include: {
+      select:{
+        id: true,
+        title: true,
+        content: true,
+        image: true,
+        createdAt: true,
+        updatedAt: true,
+        published: true,
         author: {
           select: {
+            id: true,
             name: true,
             email: true,
             role: true,
           },
         },
-      },
+        categories:{
+          select: {
+            id: true,
+            name: true,
+          }
+        },
+        comments:{
+          select: {
+            id: true,
+            email: true,
+            content: true,
+            article: {
+              select:{
+                author:{
+                  select:{
+                    name: true,
+                  }
+                }
+              }
+            }
+          }
+        },
+      }
     });
     if (article) {
       res.send(article);
@@ -57,8 +136,9 @@ router.get("/:id", async (req, res) => {
 });
 
 // POST /articles
-router.post("/", verifyToken, async (req, res) => {
-  const { title, content, image, categories } = req.body;
+router.post("/",verifyToken,upload.single("image"), async (req, res) => {
+  const { title, content, categories } = req.body;
+  console.log(categories)
   const { user } = req; // Access the authenticated user
 
   try {
@@ -66,9 +146,9 @@ router.post("/", verifyToken, async (req, res) => {
       data: {
         title,
         content,
-        image,
+        image:req.filePath,
         author: { connect: { id: user.user_id } },
-        categories: { connect: categories },
+        categories: { connect: categories.map((id)=>({id:parseInt(id)})) },
         published: true,
       },
     });

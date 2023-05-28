@@ -17,6 +17,30 @@ router.get('/', async (req, res) => {
         name: true,
         email: true,
         role: true,
+        articles: {
+          select: {
+            id: true,
+            title: true,
+            content: true,
+            image: true,
+            createdAt: true,
+            updatedAt: true,
+            published: true,
+            categories:{
+              select: {
+                id: true,
+                name: true,
+              }
+            },
+            comments:{
+              select: {
+                id: true,
+                email: true,
+                content: true,
+              }
+            },
+          }
+        }
       }
     });
     res.send(users);
@@ -37,7 +61,39 @@ router.get('/:id', async (req, res) => {
         name: true,
         email: true,
         role: true,
-      }
+        articles: {
+          select: {
+            id: true,
+            title: true,
+            content: true,
+            image: true,
+            createdAt: true,
+            updatedAt: true,
+            published: true,
+            author:{
+              select:{
+                name: true,
+              }
+            },
+            categories:{
+              select: {
+                id: true,
+                name: true,
+              }
+            },
+            comments:{
+              select: {
+                id: true,
+                email: true,
+                content: true,
+              }
+            },
+          },
+          orderBy:{
+            createdAt:"desc",
+          }
+        }
+      },
     });
     if (user) {
       res.send(user);

@@ -12,6 +12,42 @@ router.get('/', async (req, res) => {
     const categories = await prisma.category.findMany({
       take,
       skip,
+      select:{
+        id: true,
+        name: true,
+        articles:{
+          select:{
+            id: true,
+            title: true,
+            content: true,
+            image: true,
+            createdAt: true,
+            updatedAt: true,
+            published: true,
+            author: {
+              select: {
+                id: true,
+                name: true,
+                email: true,
+                role: true,
+              },
+            },
+            categories:{
+              select: {
+                id: true,
+                name: true,
+              }
+            },
+            comments:{
+              select: {
+                id: true,
+                email: true,
+                content: true,
+              }
+            },
+          }
+        }
+      }
     });
     res.send(categories);
   } catch (error) {
@@ -26,6 +62,42 @@ router.get('/:id', async (req, res) => {
   try {
     const categorie = await prisma.category.findUnique({
       where: { id },
+      select:{
+        id: true,
+        name: true,
+        articles:{
+          select:{
+            id: true,
+            title: true,
+            content: true,
+            image: true,
+            createdAt: true,
+            updatedAt: true,
+            published: true,
+            author: {
+              select: {
+                id: true,
+                name: true,
+                email: true,
+                role: true,
+              },
+            },
+            categories:{
+              select: {
+                id: true,
+                name: true,
+              }
+            },
+            comments:{
+              select: {
+                id: true,
+                email: true,
+                content: true,
+              }
+            },
+          }
+        }
+      }
     });
     if (categorie) {
       res.send(categorie);

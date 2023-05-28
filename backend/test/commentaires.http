@@ -1,0 +1,32 @@
+### Récupérer tous les commentaires ###
+GET http://localhost:3001/commentaires
+
+### Récupérer les commentaires à partir de la position 5, en prenant les 10 premiers éléments ###
+GET http://localhost:3001/commentaires?skip=5&take=10
+
+### Récupérer le commentaire ayant l'id 1 ###
+GET http://localhost:3001/commentaires/100
+
+### Ajouter un nouvel commentaire ###
+POST http://localhost:3001/commentaires
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0MCwiZW1haWwiOiJhbWluZUBnbWFpbC5jb20iLCJpYXQiOjE2ODQ2ODIwMzAsImV4cCI6MTY4NDg1NDgzMH0.3TbgRC1xNoq7Qdowyf013gFE6wDdNnxKMWdxsC6UO3s
+
+{
+    "email": "amine@gmail.com",
+    "content": "Contenu de le commentaire",
+    "articleId": 108
+}
+
+### Mettre à jour le commentaire ayant l'id 1 ###
+PATCH http://localhost:3001/commentaires/1016
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0MCwiZW1haWwiOiJhbWluZUBnbWFpbC5jb20iLCJpYXQiOjE2ODQ2ODIwMzAsImV4cCI6MTY4NDg1NDgzMH0.3TbgRC1xNoq7Qdowyf013gFE6wDdNnxKMWdxsC6UO3s
+
+{
+    "content": "Contenu mise à jour de le commentaire"
+}
+
+### Supprimer le commentaire ayant l'id 1 ###
+DELETE http://localhost:3001/commentaires/1016
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0MCwiZW1haWwiOiJhbWluZUBnbWFpbC5jb20iLCJpYXQiOjE2ODQ2ODIwMzAsImV4cCI6MTY4NDg1NDgzMH0.3TbgRC1xNoq7Qdowyf013gFE6wDdNnxKMWdxsC6UO3s

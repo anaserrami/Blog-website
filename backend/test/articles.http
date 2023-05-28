@@ -1,0 +1,36 @@
+### Récupérer tous les articles ###
+GET http://localhost:3001/articles
+
+### Récupérer les articles à partir de la position 5, en prenant les 10 premiers éléments ###
+GET http://localhost:3001/articles?skip=5&take=10
+
+### Récupérer l'article ayant l'id 1 ###
+GET http://localhost:3001/articles/10
+
+### Ajouter un nouvel article ###
+POST http://localhost:3001/articles
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0MCwiZW1haWwiOiJhbWluZUBnbWFpbC5jb20iLCJpYXQiOjE2ODQ4ODYzNjQsImV4cCI6MTY4NTA1OTE2NH0.KGnmJKZiWb7lhQsbEKg1nrBbg8C_Y-vuy0uQwtfIyOI
+
+{
+    "title": "Nouvel article",
+    "content": "Contenu de l'article",
+    "image": "http://localhost:3001/images/img1.jpg",
+    "categories": [{"id": 4}]
+}
+
+### Mettre à jour l'article ayant l'id 1 ###
+PATCH http://localhost:3001/articles/108
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0MCwiZW1haWwiOiJhbWluZUBnbWFpbC5jb20iLCJpYXQiOjE2ODQ4ODYzNjQsImV4cCI6MTY4NTA1OTE2NH0.KGnmJKZiWb7lhQsbEKg1nrBbg8C_Y-vuy0uQwtfIyOI
+
+{
+    "title": "Article mis à jour",
+    "content": "Nouveau contenu",
+    "image": "http://localhost:3001/images/img2.jpg",
+    "categories": [{"id": 2}]
+}
+
+### Supprimer l'article ayant l'id 1 ###
+DELETE http://localhost:3001/articles/112
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0MCwiZW1haWwiOiJhbWluZUBnbWFpbC5jb20iLCJpYXQiOjE2ODQ4ODYzNjQsImV4cCI6MTY4NTA1OTE2NH0.KGnmJKZiWb7lhQsbEKg1nrBbg8C_Y-vuy0uQwtfIyOI

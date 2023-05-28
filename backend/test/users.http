@@ -5,7 +5,7 @@ GET http://localhost:3001/users
 GET http://localhost:3001/users?skip=5&take=10
 
 ### Récupérer l'user ayant l'id 1 ###
-GET http://localhost:3001/users/1
+GET http://localhost:3001/users/40
 
 ### Ajouter un nouvel user ###
 POST http://localhost:3001/users

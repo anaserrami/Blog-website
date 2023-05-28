@@ -12,19 +12,36 @@ router.get("/", async (req, res) => {
     const commentaires = await prisma.comment.findMany({
       take,
       skip,
-      include: {
+      select:{
+        id: true,
+        email: true,
+        content: true,
         article: {
           select: {
+            id: true,
             title: true,
             content: true,
             image: true,
             createdAt: true,
             updatedAt: true,
             published: true,
-            authorId: true,
+            author: {
+              select: {
+                id: true,
+                name: true,
+                email: true,
+                role: true,
+              },
+            },
+            categories:{
+              select: {
+                id: true,
+                name: true,
+              }
+            },
           },
         },
-      },
+      }
     });
     res.send(commentaires);
   } catch (error) {
@@ -39,19 +56,36 @@ router.get("/:id", async (req, res) => {
   try {
     const commentaire = await prisma.comment.findUnique({
       where: { id },
-      include: {
+      select:{
+        id: true,
+        email: true,
+        content: true,
         article: {
           select: {
+            id: true,
             title: true,
             content: true,
             image: true,
             createdAt: true,
             updatedAt: true,
             published: true,
-            authorId: true,
+            author: {
+              select: {
+                id: true,
+                name: true,
+                email: true,
+                role: true,
+              },
+            },
+            categories:{
+              select: {
+                id: true,
+                name: true,
+              }
+            },
           },
         },
-      },
+      }
     });
     if (commentaire) {
       res.send(commentaire);
