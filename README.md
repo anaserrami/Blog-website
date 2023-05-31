@@ -29,7 +29,7 @@ Nous devons remplir la base de données en utilisant le fichier seeds situé dan
 
 ## node seeds/seeds.js 
   
-Apres lancer le projet avec la commade :
+Apres lancer le backend avec la commande :
 
 ## npm start 
  
@@ -41,9 +41,13 @@ Dans un autre terminal `cmd` on accede au frontend par :
 
 ## cd frontend
 
-Et on doit installer `node_modules` puis lancer le projet avec la commande suivant:  
+Et on doit installer `node_modules` avec :  
   
 ## npm i
+
+puis lancer le frontend avec la commande suivant:
+
 ## npm start 
   
 Apres, assurez-vous que vous démarrez mysql en utilisant `xaamp` et naviguer vers `http://localhost:3000/` pour voir le projet.
+## Il faut que les deux serveur de backend et frontend doit demarer pour que le projet travailler
