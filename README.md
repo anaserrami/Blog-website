@@ -50,4 +50,4 @@ puis lancer le frontend avec la commande suivant:
 ## npm start 
   
 Apres, assurez-vous que vous démarrez mysql en utilisant `xaamp` et naviguer vers `http://localhost:3000/` pour voir le projet.
-## Il faut que les deux serveur de backend et frontend doit demarer pour que le projet travailler
+## Il faut que les deux serveur de backend et frontend doit demarer pour que le projet travailler et naviguer vers http://localhost:3000
