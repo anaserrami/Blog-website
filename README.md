@@ -1,4 +1,4 @@
-# projet-web
+# application-web
 
 ## Étapes pour démarrer le projet
 
